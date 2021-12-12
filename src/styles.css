@@ -125,8 +125,14 @@ body {
   user-select: none;
   margin-left: 20px;
 }
+.typeKey {
+  width: 100%;
+  height: 100%;
+  position:absolute;
+  outline: none;
+}
 
-.container input {
+.checkbox {
   position: absolute;
   opacity: 0;
   cursor: pointer;
@@ -136,18 +142,18 @@ body {
 
 .checkmark {
   position: absolute;
-  top: 0;
+  /* top: 0; */
   left: 0;
   height: 25px;
   width: 25px;
   background-color: #eee;
 }
 
-.container:hover input ~ .checkmark {
+.container:hover .checkbox ~ .checkmark {
   background-color: #ccc;
 }
 
-.container input:checked ~ .checkmark {
+.container .checkbox:checked ~ .checkmark {
   background-color: #21e221;
 }
 .checkmark:after {
@@ -155,9 +161,13 @@ body {
   position: absolute;
   display: none;
 }
-.container input:checked ~ .checkmark:after {
+.container .checkbox:checked ~ .checkmark:after {
   display: block;
 }
+.key{
+  background-color: transparent;
+}
+
 .container .checkmark:after {
   left: 9px;
   top: 5px;
@@ -169,3 +179,4 @@ body {
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 }
+

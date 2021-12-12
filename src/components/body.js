@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import {useDispatch} from 'react-redux';
 import getKeywords from '../redux/keywords/actionCreators';
 import axios from 'axios';
+import Loader from './Loader';
 
 const Body = () => {
   const [selectedFile, setSelectedFile] = useState("");
@@ -30,9 +31,8 @@ const Body = () => {
   },[selectedFile]);
 
   useEffect(() => {
-
   },[])
-  return <>{loading ? (<div>Loading...</div>) : <div className="d-flex flex-column justify-content-center align-items-center col-8">
+  return <>{loading ? (<Loader text={"Fetching keywords ..."}/>) : <div className="d-flex flex-column justify-content-center align-items-center col-8">
     <div className="dragit">
       <label className="w-100 h-100 d-flex justify-content-center align-items-center" htmlFor="uploadvideo">Drag and Drop</label>
       <input id="uploadvideo" type="file" accept="video/mp4" onChange={changeHandler} webkitdirectory/>
