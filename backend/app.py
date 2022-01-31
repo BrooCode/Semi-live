@@ -9,9 +9,28 @@ import uuid
 import train as train
 import chatbot as bot
 import json
-import s3iterate as link
-
+import uni_s3iterate as uvi_link
+import uid_s3iterate as uid_link
+from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins="*",
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+@app.get('/create_user')
+def get_form(request: Request):
+    result = "In Process......"
+    return  result
+
+@app.post('/create_user')
+async def post_form(request: Request, uid: str = None):
+    makefolder.makefolder(uid)
+    result = "User Created"
+    return {"result" : result}
 
 @app.get('/keyword')
 def get_form(request: Request):
@@ -24,12 +43,13 @@ async def post_form(request: Request, file: UploadFile = File(...)):
     with open(f'{file.filename}',"wb") as buffer:
         shutil.copyfileobj(file.file,buffer)
     token = str(uuid.uuid4())
-    filelink = upload.upload(file.filename,token)
+    # filelink = upload.upload(file.filename,token)
     os.mkdir(token)
-    result = key.genearte(file.filename)
-    os.remove(file.filename)
-    os.remove("my_result.wav")
-    return {"result" : result,"link" : filelink,"id":token}
+    result = key.genearte(file.filename,token)
+    temp = "my_result" + str(token) + ".wav"
+    os.remove(temp)
+    # os.remove(file.filename)
+    return {"result" : result,"id":token}
 
 @app.get('/askbot')
 def get_form(request: Request):
@@ -49,21 +69,32 @@ def get_form(request: Request):
 @app.post('/trainbot')
 async def post_form(request: Request,token: str = None):
     t = token + "\intents.json"
-    open(t,"W")
+    open(t,"w")
     req_info = await request.json()
+    print( type(req_info), type(request))
+    train.train(req_info, token)
     temp = token + "\intents.json"
     with open(temp, "r+") as outfile:
         json.dump(req_info, outfile)
     return {"result" : "AutoBots RollOut"}
 
-@app.get('/link')
+@app.get('/uid_link')
+def get_form(request: Request):
+    result = "All the files on this channel"
+    return  result
+
+@app.post('/uid_link')
+async def post_form(request: Request,uid: str = None):
+    return {"result" : uid_link.link(uid)}
+
+@app.get('/uvi_link')
 def get_form(request: Request):
     result = "All the files on s3 "
     return  result
 
-@app.post('/link')
+@app.post('/uvi_link')
 async def post_form(request: Request):
-    return {"result" : link.link()}
+    return {"result" : uvi_link.link()}
 
 if __name__ == '__main__':
     uvicorn.run(app)

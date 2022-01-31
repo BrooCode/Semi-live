@@ -59,6 +59,7 @@ def response(token,ask):
     print("Go ! Bot is running")
 
     message = ask
+    
     ints = predict_class(message)
     res = get_response(ints,intents)
     # print(res)

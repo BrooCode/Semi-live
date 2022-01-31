@@ -1,5 +1,10 @@
 import moviepy.editor as mp
 
-def sound(path):
+def sound(path,token):
+    print("vts1")
     my_clip = mp.VideoFileClip(path)
-    my_clip.audio.write_audiofile(r"my_result.wav")
+    print("vts2")
+    temp = "my_result" + str(token) + ".wav"
+    my_clip.audio.write_audiofile(temp)
+    print("vts3")
+    return temp

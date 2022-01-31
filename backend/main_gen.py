@@ -3,8 +3,11 @@ import vts as vts
 import vtt as vtt
 import keywords as keywords
 
-def genearte(file):
+def genearte(file,token):
     # path = "keyord\" + str(file) 
-    vts.sound(file)
-    str = vtt.key()
+    print("1")
+    filename = vts.sound(file,token)
+    print("2")
+    str = vtt.key(filename)
+    print("3")
     return keywords.generate_keyword(str)
